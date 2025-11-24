@@ -1553,7 +1553,7 @@
               "cards": [
                 {
                   "type": "markdown",
-                  "content": "## 📈 System Status\n* **Core:** `✅Online`\n* **Plex:** `✅Online`\n* **Alexa:** `✅Online`\n* **HomeKit:** `✅Online`\n* **Push Notifications:** `⚠️Offline` for `Washer` and `Dryer` (see bugs)\n* **Cameras:** `✅6/6 Online` `🔴Rec: Doorbell`\n* **Thermostat:** `✅Online`\n* **Front Door Lock:** `✅Online`\n* **Garage Door Opener:** `✅Online`\n---\n## 🐞 Bugs\n* 11/24/25: `🔴Open` Push notifications for `Washer` and `Dryer` temporarily suspended for incorrectly triggering during power spikes.\n* 11/23/25: `🟢Fixed` Alexa API not syncing device state and failing to pair new devices.\n* 10/22/25: `🔴Open` Cameras frequently dropping out or lagging when viewed via the Home Assistant mobile app.\n---\n## ✨ New Features\n* 11/24/25: New pill for `Washer` added to dashboard\n* 11/24/25: Pills for `Washer` and `Dryer` will now only appear when the mahchines are on.\n* 11/23/25: New pill for `Dryer` added to dashboard\n* 11/23/25: New push notifications for `Freezer` if the door is left open for 5+ minutes, recurring every 15 minutes.\n* 11/14/25: Amazon not-so-smart theromostat replaced with Meross smart theromostat.\n---\n## 🔮 Roadmap\n*`S` Small &nbsp;&nbsp; `M` Medium &nbsp;&nbsp; `L` Large &nbsp;&nbsp; `XL` Xtra Large*\n\n* *`M`* Smart barn lights for `Garage`\n* *`S`* Door close sensor for `Back Door`\n* *`XL`* AI models for people, package and bird detection.\n* *`L`* 'Away' mode brings realtime alerts, remote access and camera streaming on-the-go.\n* *`M`* Smarter push notifications with images, buttons and actions.\n* *`L`* Multi-stream camera recording with local storage and playback.\n* *`XL`* Kill Alexa with AI LLMs & voice recognition.\n---\n[View History](/dashboard-home/history)",
+                  "content": "## 📈 System Status\n* **Core:** `✅Online`\n* **Plex:** `✅Online`\n* **Alexa:** `✅Online`\n* **HomeKit:** `✅Online`\n* **Push Notifications:** `⚠️Offline` for `Washer` and `Dryer` (see bugs)\n* **Cameras:** `✅6/6 Online` `🔴Rec: Doorbell`\n* **Thermostat:** `✅Online`\n* **Front Door Lock:** `✅Online`\n* **Garage Door Opener:** `✅Online`\n---\n## 🐞 Bugs\n* 11/24/25: `🔴Open` Push notifications for `Washer` and `Dryer` temporarily suspended for incorrectly triggering during power spikes.\n* 10/22/25: `🔴Open` `✨Requires New Feature` Cameras frequently dropping out or lagging when viewed via the Home Assistant mobile app.\n* 11/23/25: `🟢Fixed` Alexa API not syncing device state and failing to pair new devices.\n---\n## ✨ New Features\n* 11/24/25: New pill for `Washer` added to dashboard\n* 11/24/25: Pills for `Washer` and `Dryer` will now only appear when the mahchines are on.\n* 11/23/25: New pill for `Dryer` added to dashboard\n* 11/23/25: New push notifications for `Freezer` if the door is left open for 5+ minutes, recurring every 15 minutes.\n* 11/14/25: Amazon not-so-smart theromostat replaced with Meross smart theromostat.\n* 11/13/25: Added Status page (yes! this page) as the first official new feature.\n---\n## 🔮 Roadmap\n*`S` Small &nbsp;&nbsp; `M` Medium &nbsp;&nbsp; `L` Large &nbsp;&nbsp; `XL` Xtra Large*\n\n* *`M`* Smart barn lights for `Garage`\n* *`S`* Door close sensor for `Back Door`\n* *`XL`* AI models for people, package and bird detection.\n* *`L`* 'Away' mode brings realtime alerts, remote access and camera streaming on-the-go.\n* *`M`* Smarter push notifications with images, buttons and actions.\n* *`L`* Multi-stream camera recording with local storage and playback.\n* *`XL`* Kill Alexa with AI LLMs & voice recognition.\n---\n[View History](/dashboard-home/history)",
                   "grid_options": {
                     "columns": "full"
                   }
@@ -1603,15 +1603,6 @@
             {
               "type": "grid",
               "cards": [
-                {
-                  "type": "heading",
-                  "heading": "History",
-                  "heading_style": "title",
-                  "icon": "mdi:clock",
-                  "card_mod": {
-                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
-                  }
-                },
                 {
                   "type": "markdown",
                   "content": "## ✨ New Features\n* 11/23/25: Historic announcements will be archived here.\n\n## 🔮 Roadmap\n* 11/23/25: Historic announcements will be archived here.",
