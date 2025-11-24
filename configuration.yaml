@@ -1,4 +1,4 @@
-# DW Home Assistant configuration.yaml
+# DW Home Assistant configuration.yaml v1.0
 # Loads default set of integrations. Do not remove.
 default_config:
 
