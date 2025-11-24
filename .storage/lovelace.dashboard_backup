@@ -1,0 +1,1804 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_backup",
+  "data": {
+    "config": {
+      "button_card_templates": {
+        "ios_pill_tile": {
+          "variables": {
+            "pill_on_bg": "rgba(255,255,255,0.85)",
+            "pill_off_bg": "rgba(255,255,255,0.12)",
+            "icon_bg_on": "#F5C542",
+            "icon_bg_off": "#707070",
+            "icon_color": "#FFFFFF",
+            "text_on": "#000",
+            "text_off": "rgba(255,255,255,0.9)",
+            "subtext_on": "rgba(0,0,0,0.6)",
+            "subtext_off": "rgba(255,255,255,0.7)",
+            "pill_alert_bg": "rgba(255,255,255,0.92)",
+            "icon_alert_bg": "#3B82F6"
+          },
+          "show_name": true,
+          "show_label": true,
+          "show_icon": true,
+          "tap_action": {
+            "action": "toggle"
+          },
+          "layout": "icon_name_state2",
+          "size": "20px",
+          "styles": {
+            "card": [
+              {
+                "border-radius": "18px"
+              },
+              {
+                "box-shadow": "0 6px 0px rgba(0,0,0,0.18)"
+              },
+              {
+                "height": "60px"
+              },
+              {
+                "padding": "12px 4px"
+              },
+              {
+                "border": "none"
+              },
+              {
+                "background": "[[[\n  const id = (entity.entity_id || '');\n  const domain = id.split('.')[0] || '';\n  const s = entity.state;\n\n  // \"Alert\" when a lock is UNLOCKED or a cover is OPEN/OPENING\n  const isAlert =\n    (domain === 'lock'  && s === 'unlocked') ||\n    (domain === 'cover' && (s === 'open' || s === 'opening'));\n\n  // For other domains keep your original on/off background\n  if (isAlert) return variables.pill_alert_bg;\n\n  // Treat any non-off state as on for media players\n  if (domain === 'media_player') return s.toLowerCase() !== 'off' ? variables.pill_on_bg : variables.pill_off_bg;\n  \n  return s === 'on' ? variables.pill_on_bg : variables.pill_off_bg;\n]]]\n"
+              }
+            ],
+            "grid": [
+              {
+                "grid-template-columns": "46px 1fr"
+              },
+              {
+                "grid-template-areas": "\"i n\" \"i l\""
+              },
+              {
+                "column-gap": "6px"
+              },
+              {
+                "align-items": "center"
+              }
+            ],
+            "name": [
+              {
+                "grid-area": "n"
+              },
+              {
+                "justify-self": "start"
+              },
+              {
+                "font-weight": 700
+              },
+              {
+                "font-size": "15px"
+              },
+              {
+                "color": "[[[\n  const id = (entity.entity_id || '');\n  const domain = id.split('.')[0] || '';\n  const s = entity.state;\n  const isAlert =\n    (domain === 'lock'  && s === 'unlocked') ||\n    (domain === 'cover' && (s === 'open' || s === 'opening'));\n\n  // Bright text when alert, else your original on/off text color\n  if (isAlert) return variables.text_on;\n  if (domain === 'media_player') return s.toLowerCase() !== 'off' ? '#000000' : variables.text_off;\n  return s === 'on' ? variables.text_on : variables.text_off;\n]]]\n"
+              }
+            ],
+            "label": [
+              {
+                "grid-area": "l"
+              },
+              {
+                "justify-self": "start"
+              },
+              {
+                "font-size": "13px"
+              },
+              {
+                "margin-top": "2px"
+              },
+              {
+                "color": "[[[\n  const id = (entity.entity_id || '');\n  const domain = id.split('.')[0] || '';\n  const s = entity.state;\n  const isAlert =\n    (domain === 'lock'  && s === 'unlocked') ||\n    (domain === 'cover' && (s === 'open' || s === 'opening'));\n\n  if (isAlert) return variables.subtext_on;\n  if (domain === 'media_player') return s.toLowerCase() !== 'off' ? variables.subtext_on : variables.subtext_off;\n  return s === 'on' ? variables.subtext_on : variables.subtext_off;\n]]]\n"
+              }
+            ],
+            "img_cell": [
+              {
+                "grid-area": "i"
+              },
+              {
+                "align-self": "center"
+              },
+              {
+                "justify-self": "center"
+              },
+              {
+                "border-radius": "50%"
+              },
+              {
+                "width": "36px"
+              },
+              {
+                "height": "36px"
+              },
+              {
+                "background": "[[[\n  const domain = entity.entity_id.split('.')[0];\n  const s = entity.state;\n\n  // Alert condition (lock unlocked, cover open/opening)\n  const isAlert =\n    (domain === 'lock'  && s === 'unlocked') ||\n    (domain === 'cover' && (s === 'open' || s === 'opening'));\n\n  if (domain === 'cover') {\n    // DW Use custom icon background color for covers instead of blue\n    return isAlert ? '#f54242' : variables.icon_bg_off; \n  }\n\n  if (domain === 'lock') {\n    // DW Use custom icon background color for covers instead of blue\n    return isAlert ? '#f54242' : variables.icon_bg_off; \n  }\n\n  // Locks and other entities\n  if (isAlert) return variables.icon_alert_bg;\n\n  return s === 'on' ? variables.icon_bg_on : variables.icon_bg_off;\n]]]\n"
+              }
+            ],
+            "icon": [
+              {
+                "width": "22px"
+              },
+              {
+                "padding": 0
+              },
+              {
+                "margin": 0
+              },
+              {
+                "color": "[[[\n  const id = (entity.entity_id || '');\n  const domain = id.split('.')[0] || '';\n  const s = entity.state;\n\n  // Red for alert state, green for safe/closed/locked\n  //if (domain === 'lock') return s === 'unlocked' ? '#d15050' : 'white';\n  //if (domain === 'cover') return (s === 'open' || s === 'opening') ? '#d15050' : 'white';\n\n  // Default color for lights, etc.\n  return variables.icon_color;\n]]]\n"
+              }
+            ]
+          },
+          "label": "[[[\n  const id = (entity.entity_id || '');\n  const domain = id.split('.')[0] || '';\n\n  // LOCK: show Locked/Unlocked\n  if (domain === 'lock') {\n    return entity.state === 'unlocked' ? 'Unlocked' : 'Locked';\n  }\n\n  // COVER (garage door): show Open/Closed/Moving\n  if (domain === 'cover') {\n    if (entity.state === 'opening' || entity.state === 'closing') return 'Moving';\n    return entity.state === 'open' ? 'Open' : 'Closed';\n  }\n\n  // LIGHT: show brightness %\n  if (domain === 'light') {\n    if (entity.state !== 'on') return 'Off';\n    const b = entity.attributes.brightness;\n    if (b == null) return 'On';\n    return Math.round(b/2.55) + '%';\n  }\n\n  // FAN: show percentage or speed/preset\n  if (domain === 'fan') {\n    if (entity.state !== 'on') return 'Off';\n    const p = entity.attributes.percentage;\n    if (p != null) return p + '%';\n    const sp = entity.attributes.speed || entity.attributes.preset_mode;\n    return sp ? String(sp) : 'On';\n  }\n\n  // Default\n  return entity.state ? (entity.state[0].toUpperCase()+entity.state.slice(1)) : '';\n]]]\n"
+        }
+      },
+      "views": [
+        {
+          "title": "Backup",
+          "button_card_templates": {
+            "ios_pill_tile": {
+              "test": "hello"
+            }
+          },
+          "type": "sections",
+          "icon": "mdi:home-heart",
+          "path": "home",
+          "subview": false,
+          "background": {
+            "opacity": 30,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "repeat",
+            "attachment": "fixed"
+          },
+          "max_columns": 3,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Downstairs",
+                  "heading_style": "title",
+                  "icon": "mdi:stairs-down",
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.living_room_lights",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": false,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Living Room"
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.kitchen_lights",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": false,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Kitchen"
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.living_room_downlights",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": false,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Downlights"
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "switch",
+                  "entity": "light.dining_lamp",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": false,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Dining Lamp"
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.pc_light",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ]
+                }
+              ],
+              "column_span": 1
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Bedroom",
+                  "icon": "mdi:bed-king-outline",
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.bedroom_lights",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Lights"
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "cover",
+                  "button_type": "slider",
+                  "entity": "cover.bedroom_blinds",
+                  "show_attribute": false,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "",
+                  "icon_open": "mdi:window-shutter-open",
+                  "icon_close": "mdi:window-shutter",
+                  "force_icon": false,
+                  "show_name": true,
+                  "show_last_changed": false,
+                  "show_last_updated": false,
+                  "scrolling_effect": false,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "button_action": {}
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.deans_lamp",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Dean's Lamp"
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.megans_lamp",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Megan's Lamp"
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.deans_bed",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Dean's Bed"
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.megans_bed",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Megan's Bed"
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.reading_lamp",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": ""
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "fan.bedroom_fan",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": false,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 3,
+                    "rows": "auto"
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Fan",
+                  "show_name": false,
+                  "scrolling_effect": false,
+                  "button_action": {
+                    "tap_action": {
+                      "action": "toggle"
+                    },
+                    "hold_action": {
+                      "action": "more-info"
+                    }
+                  },
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "card_mod": {
+                    "style": ".bubble-button.bubble-wrapper {\n  flex-direction: column !important;  /* stack → no empty area */\n  transition-property: none !important;\n  padding-top: 3px\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "switch",
+                  "entity": "switch.sleep_machine",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": false,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 3,
+                    "rows": "auto"
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Noise",
+                  "icon": "mdi:music-note",
+                  "button_action": {
+                    "tap_action": {
+                      "action": "toggle"
+                    },
+                    "hold_action": {
+                      "action": "more-info"
+                    }
+                  },
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  },
+                  "scrolling_effect": false,
+                  "show_name": false,
+                  "card_mod": {
+                    "style": ".bubble-button.bubble-wrapper {\n  flex-direction: column !important;  /* stack → no empty area */\n  transition-property: none !important;\n  padding-top: 3px\n}\n"
+                  }
+                }
+              ],
+              "column_span": 1
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "icon": "mdi:door-closed",
+                  "heading": "Entrance",
+                  "heading_style": "title",
+                  "badges": [],
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.porch_light",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": ""
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.front_door_light",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": "Entrance Light"
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "slider",
+                  "entity": "light.garage_lights",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": false,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": ""
+                },
+                {
+                  "type": "custom:bubble-card",
+                  "card_type": "button",
+                  "button_type": "switch",
+                  "entity": "light.work_light",
+                  "show_attribute": true,
+                  "attribute": "brightness",
+                  "use_accent_color": false,
+                  "light_transition": true,
+                  "show_state": true,
+                  "slider_live_update": true,
+                  "grid_options": {
+                    "columns": 6
+                  },
+                  "modules": [
+                    "dw_slider"
+                  ],
+                  "name": ""
+                }
+              ],
+              "column_span": 1
+            }
+          ],
+          "header": {
+            "layout": "center",
+            "card": {
+              "type": "custom:mushroom-title-card",
+              "title": "{%- if now().hour < 12 -%}Good Morning\n{%- elif now().hour < 18 -%}Good Afternoon\n{%- else -%}Good Evening{%- endif -%}, {{user}}\nBACKUP 11-18 - DONT EDIT",
+              "subtitle": "{{ now().strftime('%a, %b %-d ∙ %I:%M %p') }}",
+              "title_tap_action": {
+                "action": "perform-action",
+                "perform_action": "frontend.reload_themes",
+                "target": {}
+              },
+              "subtitle_tap_action": {
+                "action": "none"
+              },
+              "alignment": "center",
+              "card_mod": {
+                "style": ".title {\n  color: rgba(255,255,255,.8) !important;\n  font-size: 32px !important;\n  font-weight: 400 !important;\n  border-bottom: .05em solid rgba(255,255,255,.5);\n  padding-top: 0px !important;\n  padding-bottom: 8px !important;\n  display: inline-block;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.subtitle {\n  color: rgba(255,255,255,.7) !important;\n  font-size: 23px !important;\n  font-weight: 300 !important;\n  padding-top: 0px;\n  padding-bottom: 0px !important;\n  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);\n}\n:host ha-icon {\n  display: none !important;\n}\n"
+              }
+            },
+            "badges_position": "bottom",
+            "badges_wrap": "wrap"
+          },
+          "badges": [
+            {
+              "type": "custom:mushroom-entity-card",
+              "entity": "sensor.dw_lights_on_count",
+              "name": "Lights On",
+              "fill_container": false,
+              "icon_type": "icon",
+              "icon": "mdi:lightbulb",
+              "tap_action": {
+                "action": "navigate",
+                "navigation_path": "/dashboard-home/lights"
+              },
+              "hold_action": {
+                "action": "none"
+              },
+              "double_tap_action": {
+                "action": "none"
+              },
+              "card_mod": {
+                "style": "ha-card {\n  height: 38px !important;\n  padding-left: 2px !important;\n  padding-bottom: 2px !important;\n  padding-right: 12px !important;\n  margin: 0px !important;\n  --spacing: 0px !important; /* Mushroom-specific padding variable */\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --ha-ripple-color: green !important;\n}\nmushroom-shape-icon {\n  padding: 0px !important;\n  --icon-color: rgba(253, 158, 10, .9) !important;\n  --icon-color-disabled: rgba(253, 158, 10, .9) !important;\n  --shape-color: rgba(0, 0, 0, 0) !important;\n  --shape-color-disabled: rgba(0, 0, 0, 0) !important;   \n  --icon-symbol-size: 24px;\n  --icon-size: 38px;\n}\nmushroom-state-info {\n    --card-primary-font-size: 12px !important;\n    --card-primary-color: rgba(255,255,255,.8) !important;\n    --card-secondary-font-size: 11px !important;\n    --card-secondary-color: rgba(255,255,255,.7) !important;\n}\n"
+              }
+            },
+            {
+              "type": "custom:mushroom-entity-card",
+              "entity": "climate.thermostat",
+              "name": "Air Con",
+              "icon": "mdi:fan",
+              "fill_container": false,
+              "icon_type": "icon",
+              "tap_action": {
+                "action": "more-info"
+              },
+              "hold_action": {
+                "action": "none"
+              },
+              "double_tap_action": {
+                "action": "none"
+              },
+              "card_mod": {
+                "style": "ha-card {\n  height: 38px !important;\n  padding-left: 2px !important;\n  padding-bottom: 2px !important;\n  padding-right: 16px !important;\n  margin: 0px !important;\n  --spacing: 0px !important; /* Mushroom-specific padding variable */\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --ha-ripple-color: green !important;\n}\nmushroom-shape-icon {\n  padding: 0px !important;\n  --icon-color: orange !important;\n  --icon-color-disabled: grey !important;\n  --shape-color: rgba(0, 0, 0, 0) !important;\n  --shape-color-disabled: rgba(0, 0, 0, 0) !important;   \n  --icon-symbol-size: 24px;\n  --icon-size: 38px;\n}\nmushroom-state-info {\n    --card-primary-font-size: 12px !important;\n    --card-primary-color: rgba(255,255,255,.8) !important;\n    --card-secondary-font-size: 11px !important;\n    --card-secondary-color: rgba(255,255,255,.7) !important;\n}\n\n:host ha-state-icon {\n  {% if is_state('climate.thermostat', 'cool') or\n        is_state('climate.thermostat', 'heat') or\n        is_state('climate.thermostat', 'heat_cool') or\n        is_state('climate.thermostat', 'auto') or\n        is_state('climate.thermostat', 'dry') or\n        is_state('climate.thermostat', 'fan_only') %}\n    animation: spin 1s linear infinite;\n  {% endif %}\n}\n@keyframes spin {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n"
+              }
+            },
+            {
+              "type": "custom:mushroom-entity-card",
+              "entity": "sensor.temp_in_out",
+              "name": "Temperature",
+              "fill_container": false,
+              "icon_type": "icon",
+              "tap_action": {
+                "action": "navigate",
+                "navigation_path": "/dashboard-home/climate"
+              },
+              "hold_action": {
+                "action": "none"
+              },
+              "double_tap_action": {
+                "action": "none"
+              },
+              "card_mod": {
+                "style": "ha-card {\n  height: 38px !important;\n  padding-left: 2px !important;\n  padding-bottom: 2px !important;\n  padding-right: 16px !important;\n  margin: 0px !important;\n  --spacing: 0px !important; /* Mushroom-specific padding variable */\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --ha-ripple-color: green !important;\n}\nmushroom-shape-icon {\n  padding: 0px !important;\n  --icon-color: #5ac8f5 !important;\n  --icon-color-disabled: grey !important;\n  --shape-color: rgba(0, 0, 0, 0) !important;\n  --shape-color-disabled: rgba(0, 0, 0, 0) !important;   \n  --icon-symbol-size: 24px;\n  --icon-size: 38px;\n}\nmushroom-state-info {\n    --card-primary-font-size: 12px !important;\n    --card-primary-color: rgba(255,255,255,.8) !important;\n    --card-secondary-font-size: 11px !important;\n    --card-secondary-color: rgba(255,255,255,.7) !important;\n}\n"
+              }
+            },
+            {
+              "type": "custom:mushroom-entity-card",
+              "entity": "lock.dw_front_door_lock_wrapper",
+              "name": "Front Door",
+              "fill_container": false,
+              "icon_type": "icon",
+              "tap_action": {
+                "action": "more-info"
+              },
+              "hold_action": {
+                "action": "none"
+              },
+              "double_tap_action": {
+                "action": "none"
+              },
+              "card_mod": {
+                "style": "ha-card {\n  height: 38px !important;\n  padding-left: 2px !important;\n  padding-bottom: 2px !important;\n  padding-right: 16px !important;\n  margin: 0px !important;\n  --spacing: 0px !important; /* Mushroom-specific padding variable */\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --ha-ripple-color: green !important;\n}\nmushroom-shape-icon {\n  padding: 0px !important;\n  --icon-color: green !important;\n  --icon-color-disabled: red !important;\n  --shape-color: rgba(0, 0, 0, 0) !important;\n  --shape-color-disabled: rgba(0, 0, 0, 0) !important;   \n  --icon-symbol-size: 24px;\n  --icon-size: 38px;\n}\nmushroom-state-info {\n    --card-primary-font-size: 12px !important;\n    --card-primary-color: rgba(255,255,255,.8) !important;\n    --card-secondary-font-size: 11px !important;\n    --card-secondary-color: rgba(255,255,255,.7) !important;\n}\n"
+              }
+            },
+            {
+              "type": "custom:mushroom-entity-card",
+              "entity": "cover.garage_door",
+              "name": "Garage",
+              "fill_container": false,
+              "icon_type": "icon",
+              "tap_action": {
+                "action": "more-info"
+              },
+              "hold_action": {
+                "action": "none"
+              },
+              "double_tap_action": {
+                "action": "none"
+              },
+              "card_mod": {
+                "style": "ha-card {\n  height: 38px !important;\n  padding-left: 2px !important;\n  padding-bottom: 2px !important;\n  padding-right: 16px !important;\n  margin: 0px !important;\n  --spacing: 0px !important; /* Mushroom-specific padding variable */\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --ha-ripple-color: green !important;\n}\nmushroom-shape-icon {\n  padding: 0px !important;\n  --icon-color: red !important;\n  --icon-color-disabled: green !important;\n  --shape-color: rgba(0, 0, 0, 0) !important;\n  --shape-color-disabled: rgba(0, 0, 0, 0) !important;   \n  --icon-symbol-size: 24px;\n  --icon-size: 38px;\n}\nmushroom-state-info {\n    --card-primary-font-size: 12px !important;\n    --card-primary-color: rgba(255,255,255,.8) !important;\n    --card-secondary-font-size: 11px !important;\n    --card-secondary-color: rgba(255,255,255,.7) !important;\n}\n"
+              }
+            }
+          ],
+          "cards": [],
+          "visible": [
+            {
+              "user": "a8879347658e4e60b1da7f503e2f898d"
+            },
+            {
+              "user": "2ee3019a20f34c73a2623a6d022e6cc2"
+            },
+            {
+              "user": "c8457f952c1047a6b93800f3a8512eaf"
+            },
+            {
+              "user": "09d875939829411a9fab924292a0048a"
+            }
+          ],
+          "theme": "DW Liquid"
+        },
+        {
+          "type": "sections",
+          "max_columns": 4,
+          "title": "Lights",
+          "path": "lights",
+          "icon": "mdi:lightbulb",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Living Room",
+                  "heading_style": "title",
+                  "icon": "mdi:sofa-single",
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:auto-entities",
+                  "card": {
+                    "type": "entities",
+                    "title": "All On / Off",
+                    "state_color": false
+                  },
+                  "filter": {
+                    "include": [
+                      {
+                        "options": {},
+                        "domain": "light",
+                        "area": "living_room"
+                      }
+                    ],
+                    "exclude": [
+                      {
+                        "options": {},
+                        "entity_id": "light.living_room_downlight_1"
+                      },
+                      {
+                        "options": {},
+                        "label": "hidden_from_ui"
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "method": "state",
+                    "reverse": true
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Kitchen & Dining",
+                  "heading_style": "title",
+                  "icon": "mdi:silverware",
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:auto-entities",
+                  "card": {
+                    "type": "entities",
+                    "title": "All On / Off",
+                    "state_color": false
+                  },
+                  "filter": {
+                    "include": [
+                      {
+                        "options": {},
+                        "domain": "light",
+                        "area": "kitchen"
+                      },
+                      {
+                        "options": {},
+                        "domain": "light",
+                        "area": "dining_room"
+                      }
+                    ],
+                    "exclude": [
+                      {
+                        "options": {},
+                        "label": "hidden_from_ui"
+                      },
+                      {
+                        "options": {},
+                        "entity_category": "switch"
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "method": "state",
+                    "reverse": true,
+                    "numeric": false,
+                    "ignore_case": false,
+                    "ip": false
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Bedroom",
+                  "heading_style": "title",
+                  "icon": "mdi:bed-king-outline",
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:auto-entities",
+                  "card": {
+                    "type": "entities",
+                    "title": "All On / Off",
+                    "state_color": false
+                  },
+                  "filter": {
+                    "include": [
+                      {
+                        "options": {},
+                        "domain": "light",
+                        "area": "bedroom"
+                      }
+                    ],
+                    "exclude": [
+                      {
+                        "options": {},
+                        "label": "hidden_from_ui"
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "method": "state",
+                    "reverse": true
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "icon": "mdi:door-closed",
+                  "heading": "Entrance & Garage",
+                  "heading_style": "title",
+                  "badges": [],
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:auto-entities",
+                  "card": {
+                    "type": "entities",
+                    "title": "All On / Off",
+                    "state_color": false
+                  },
+                  "filter": {
+                    "include": [
+                      {
+                        "options": {},
+                        "domain": "light",
+                        "area": "outside"
+                      },
+                      {
+                        "options": {},
+                        "domain": "light",
+                        "area": "gym"
+                      }
+                    ],
+                    "exclude": [
+                      {
+                        "options": {},
+                        "label": "hidden_from_ui"
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "method": "state",
+                    "reverse": true
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "icon": "mdi:cards-heart",
+                  "heading": "Megan's Room",
+                  "heading_style": "title",
+                  "badges": [],
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:auto-entities",
+                  "card": {
+                    "type": "entities",
+                    "state_color": false
+                  },
+                  "filter": {
+                    "include": [
+                      {
+                        "options": {},
+                        "domain": "light",
+                        "area": "megan_s_room"
+                      }
+                    ],
+                    "exclude": [
+                      {
+                        "options": {},
+                        "label": "hidden_from_ui"
+                      }
+                    ]
+                  },
+                  "sort": {
+                    "method": "state",
+                    "reverse": true
+                  }
+                }
+              ]
+            }
+          ],
+          "background": {
+            "opacity": 70,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "repeat",
+            "attachment": "fixed"
+          },
+          "cards": [],
+          "header": {
+            "card": {
+              "type": "custom:mushroom-title-card",
+              "title": "Lights",
+              "title_tap_action": {
+                "action": "none"
+              },
+              "alignment": "center",
+              "card_mod": {
+                "style": ".title {\n  color: #eeeeee !important;\n  font-size: 36px !important;\n  font-weight: 400 !important;\n  border-bottom: .05em solid #aaaaaa;\n  padding-top: 0px !important;\n  padding-bottom: 16px !important;\n  display: inline-block;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.subtitle {\n  color: #eeeeee !important;\n  font-size: 26px !important;\n  font-weight: 300 !important;\n  padding-top: 0px;\n  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);\n}\n.header {\n  padding-top: 0px !important;\n}       \n"
+              }
+            }
+          },
+          "theme": "DW Liquid"
+        },
+        {
+          "type": "sections",
+          "title": "Climate",
+          "cards": [],
+          "layout": {
+            "width": 300,
+            "max_cols": 10
+          },
+          "icon": "mdi:home-thermometer",
+          "background": {
+            "opacity": 70,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "repeat",
+            "attachment": "fixed"
+          },
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "icon": "mdi:thermostat-box-auto",
+                  "heading": "Air Conditioner",
+                  "heading_style": "title",
+                  "badges": [],
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "thermostat",
+                  "entity": "climate.thermostat",
+                  "show_current_as_primary": false,
+                  "features": [
+                    {
+                      "type": "climate-hvac-modes"
+                    }
+                  ],
+                  "name": " "
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "icon": "mdi:binoculars",
+                  "heading": "Forecast",
+                  "heading_style": "title",
+                  "badges": [],
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:clock-weather-card",
+                  "entity": "weather.forecast_home"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "icon": "mdi:map-marker-radius",
+                  "heading": "Weather Map",
+                  "heading_style": "title",
+                  "badges": [],
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "iframe",
+                  "url": "https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°F&metricWind=mph&zoom=8&overlay=rain&product=ecmwf&level=surface&lat=32.487&lon=-117.208&detailLat=32.903&detailLon=-117.208&detail=true&message=true",
+                  "aspect_ratio": "50%",
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": 8
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "icon": "mdi:thermometer",
+                  "heading": "Current Temperature",
+                  "heading_style": "title",
+                  "badges": [],
+                  "grid_options": {
+                    "columns": 24,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ".title {\n  color: #eeeeee !important;\n  font-size: 22px !important;\n  font-weight: 300 !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.content.title ha-icon {\n  width: auto !important;\n  height: auto !important;\n  transform: scale(.7) !important; /* 2x bigger */\n  --mdc-icon-size: 36px; /* Some icons use this variable */\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:mini-graph-card",
+                  "name": "Outdoor Temperature",
+                  "entities": [
+                    {
+                      "entity": "sensor.rht_living_room_temperature",
+                      "name": "Indoors",
+                      "show_state": true
+                    },
+                    {
+                      "entity": "sensor.rht_front_porch_temperature",
+                      "name": "Outdoors",
+                      "show_state": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "max_columns": 4,
+          "path": "climate",
+          "badges": [
+            {
+              "type": "entity",
+              "show_name": true,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.rht_living_room_temperature",
+              "name": "Downstairs",
+              "color": "cyan",
+              "show_entity_picture": true,
+              "icon": "mdi:home-thermometer"
+            },
+            {
+              "type": "entity",
+              "show_name": true,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.bedroom_temperature",
+              "name": "Upstairs",
+              "show_entity_picture": true,
+              "icon": "mdi:bed",
+              "color": "cyan"
+            },
+            {
+              "type": "entity",
+              "show_name": true,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.rht_front_porch_temperature",
+              "name": "Outdoors",
+              "color": "orange",
+              "show_entity_picture": true,
+              "icon": "mdi:sun-thermometer"
+            }
+          ],
+          "header": {
+            "card": {
+              "type": "custom:mushroom-title-card",
+              "title": "Climate",
+              "title_tap_action": {
+                "action": "none"
+              },
+              "subtitle_tap_action": {
+                "action": "none"
+              },
+              "alignment": "center",
+              "subtitle": "Will it rain this week? {{ states('sensor.dw_will_it_rain') }}",
+              "card_mod": {
+                "style": ".title {\n  color: #eeeeee !important;\n  font-size: 36px !important;\n  font-weight: 400 !important;\n  border-bottom: .05em solid #aaaaaa;\n  padding-top: 0px !important;\n  padding-bottom: 16px !important;\n  display: inline-block;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.subtitle {\n  color: #eeeeee !important;\n  font-size: 26px !important;\n  font-weight: 300 !important;\n  padding-top: 0px;\n  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);\n}\n.header {\n  padding-top: 0px !important;\n}       \n"
+              }
+            }
+          },
+          "theme": "DW Liquid"
+        },
+        {
+          "title": "Cameras",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:webrtc-camera",
+                  "title": "Street",
+                  "poster": "/local/dw_resources/loading_smoke_optimized.gif",
+                  "muted": true,
+                  "ui": true,
+                  "streams": [
+                    {
+                      "url": "street",
+                      "name": "HD",
+                      "mode": "webrtc",
+                      "media": "video,audio"
+                    }
+                  ],
+                  "style": "ha-card {\n  aspect-ratio: 16/9 !important;\n}\n",
+                  "grid_options": {
+                    "columns": 16,
+                    "rows": "auto"
+                  },
+                  "card_mod": {
+                    "style": ":host ha-card {\n  border-radius: 16px !important;\n  aspect-ratio: 16/9 !important;\n}\n:host ha-card .mode {\n  display: none !important;\n}\nhost: ha-card video {\n  object-fit: contain !important;  # keeps GIF aspect ratio, no stretching\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:webrtc-camera",
+                  "title": "Doorbell",
+                  "poster": "/local/dw_resources/loading_smoke_optimized.gif",
+                  "muted": true,
+                  "ui": true,
+                  "streams": [
+                    {
+                      "url": "doorbell_sd",
+                      "name": "SD",
+                      "mode": "webrtc",
+                      "media": "video,audio"
+                    },
+                    {
+                      "url": "doorbell_hd",
+                      "name": "HD",
+                      "mode": "webrtc",
+                      "media": "video,audio"
+                    }
+                  ],
+                  "grid_options": {
+                    "columns": 16,
+                    "rows": "auto"
+                  },
+                  "card_mod": {
+                    "style": ":host ha-card {\n  border-radius: 16px !important;\n  aspect-ratio: 16/9 !important;\n}\n:host ha-card .mode {\n  display: none !important;\n}\nhost: ha-card video {\n  object-fit: contain !important;  # keeps GIF aspect ratio, no stretching\n}  \n"
+                  }
+                },
+                {
+                  "type": "custom:webrtc-camera",
+                  "title": "Driveway",
+                  "poster": "/local/dw_resources/loading_smoke_optimized.gif",
+                  "muted": true,
+                  "ui": true,
+                  "streams": [
+                    {
+                      "url": "driveway_sd",
+                      "name": "SD",
+                      "mode": "webrtc",
+                      "media": "video,audio"
+                    },
+                    {
+                      "url": "driveway_hd",
+                      "name": "HD",
+                      "mode": "webrtc",
+                      "media": "video,audio"
+                    }
+                  ],
+                  "ptz": {
+                    "service": "onvif.ptz",
+                    "data_left": {
+                      "entity_id": "camera.ipc_profile000_mainstream",
+                      "pan": "LEFT",
+                      "move_mode": "ContinuousMove"
+                    },
+                    "data_right": {
+                      "entity_id": "camera.ipc_profile000_mainstream",
+                      "pan": "RIGHT",
+                      "move_mode": "ContinuousMove"
+                    },
+                    "data_up": {
+                      "entity_id": "camera.ipc_profile000_mainstream",
+                      "tilt": "UP",
+                      "move_mode": "ContinuousMove"
+                    },
+                    "data_down": {
+                      "entity_id": "camera.ipc_profile000_mainstream",
+                      "tilt": "DOWN",
+                      "move_mode": "ContinuousMove"
+                    },
+                    "data_zoom_in": {
+                      "entity_id": "camera.ipc_profile000_mainstream",
+                      "zoom": "ZOOM_IN",
+                      "move_mode": "ContinuousMove"
+                    },
+                    "data_zoom_out": {
+                      "entity_id": "camera.ipc_profile000_mainstream",
+                      "zoom": "ZOOM_OUT",
+                      "move_mode": "ContinuousMove"
+                    }
+                  },
+                  "grid_options": {
+                    "columns": 16,
+                    "rows": "auto"
+                  },
+                  "card_mod": {
+                    "style": ":host ha-card {\n  border-radius: 16px !important;\n  aspect-ratio: 16/9 !important;\n}\n:host ha-card .mode {\n  display: none !important;\n}\nhost: ha-card video {\n  object-fit: contain !important;  # keeps GIF aspect ratio, no stretching\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:webrtc-camera",
+                  "title": "Garage",
+                  "poster": "/local/dw_resources/loading_smoke_optimized.gif",
+                  "muted": true,
+                  "ui": true,
+                  "streams": [
+                    {
+                      "url": "garage_sd",
+                      "name": "SD",
+                      "mode": "webrtc",
+                      "media": "video,audio"
+                    },
+                    {
+                      "url": "garage_hd",
+                      "name": "HD",
+                      "mode": "webrtc",
+                      "media": "video,audio"
+                    }
+                  ],
+                  "grid_options": {
+                    "columns": 16,
+                    "rows": "auto"
+                  },
+                  "card_mod": {
+                    "style": ":host ha-card {\n  border-radius: 16px !important;\n  aspect-ratio: 16/9 !important;\n}\n:host ha-card .mode {\n  display: none !important;\n}\nhost: ha-card video {\n  object-fit: contain !important;  # keeps GIF aspect ratio, no stretching\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:webrtc-camera",
+                  "title": "Kitchen",
+                  "poster": "/local/dw_resources/loading_smoke_optimized.gif",
+                  "background": true,
+                  "muted": true,
+                  "ui": true,
+                  "streams": [
+                    {
+                      "url": "c225_sd",
+                      "name": "SD",
+                      "mode": "webrtc",
+                      "media": "video,audio"
+                    },
+                    {
+                      "url": "c225_hd",
+                      "name": "HD",
+                      "mode": "webrtc",
+                      "media": "video,audio"
+                    },
+                    {
+                      "url": "c225_2k",
+                      "name": "2k",
+                      "mode": "webrtc",
+                      "media": "video,audio"
+                    }
+                  ],
+                  "ptz": {
+                    "service": "button.press",
+                    "data_left": {
+                      "entity_id": "button.cameraname_move_left"
+                    },
+                    "data_right": {
+                      "entity_id": "button.cameraname_move_right"
+                    },
+                    "data_up": {
+                      "entity_id": "button.cameraname_move_up"
+                    },
+                    "data_down": {
+                      "entity_id": "button.cameraname_move_down"
+                    }
+                  },
+                  "grid_options": {
+                    "columns": 16,
+                    "rows": "auto"
+                  },
+                  "card_mod": {
+                    "style": ":host ha-card {\n  border-radius: 16px !important;\n  aspect-ratio: 16/9 !important;\n}\n:host ha-card .mode {\n  display: none !important;\n}\nhost: ha-card video {\n  object-fit: contain !important;  # keeps GIF aspect ratio, no stretching\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:webrtc-camera",
+                  "title": "Back Yard",
+                  "poster": "/local/dw_resources/loading_smoke_optimized.gif",
+                  "muted": true,
+                  "ui": true,
+                  "streams": [
+                    {
+                      "url": "back_yard",
+                      "name": "HD",
+                      "mode": "webrtc",
+                      "media": "video,audio"
+                    }
+                  ],
+                  "style": "ha-card {\n  aspect-ratio: 16/9 !important;\n}\n",
+                  "grid_options": {
+                    "columns": 16,
+                    "rows": "auto"
+                  },
+                  "card_mod": {
+                    "style": ":host ha-card {\n  border-radius: 16px !important;\n  aspect-ratio: 16/9 !important;\n}\n:host ha-card .mode {\n  display: none !important;\n}\nhost: ha-card video {\n  object-fit: contain !important;  # keeps GIF aspect ratio, no stretching\n}\n"
+                  }
+                }
+              ],
+              "column_span": 4
+            },
+            {
+              "type": "grid",
+              "cards": [],
+              "column_span": 4
+            }
+          ],
+          "type": "sections",
+          "max_columns": 4,
+          "icon": "mdi:cctv",
+          "cards": [],
+          "background": {
+            "opacity": 40,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "repeat",
+            "attachment": "fixed",
+            "image": {
+              "media_content_id": "/api/image/serve/6ec176f45bf75dba0b1cbbae6dc9acfc/original"
+            }
+          },
+          "path": "cameras",
+          "theme": "DW Liquid",
+          "header": {
+            "card": {
+              "type": "custom:mushroom-title-card",
+              "title": "Cameras",
+              "title_tap_action": {
+                "action": "none"
+              },
+              "alignment": "center",
+              "card_mod": {
+                "style": ".title {\n  color: #eeeeee !important;\n  font-size: 36px !important;\n  font-weight: 400 !important;\n  border-bottom: .05em solid #aaaaaa;\n  padding-top: 0px !important;\n  padding-bottom: 16px !important;\n  display: inline-block;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.subtitle {\n  color: #eeeeee !important;\n  font-size: 26px !important;\n  font-weight: 300 !important;\n  padding-top: 0px;\n  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);\n}\n.header {\n  padding-top: 0px !important;\n}       \n"
+              }
+            }
+          }
+        },
+        {
+          "type": "sections",
+          "cards": [],
+          "max_columns": 4,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:gap-card",
+                  "grid_options": {
+                    "columns": 3,
+                    "rows": "auto"
+                  }
+                },
+                {
+                  "type": "custom:firemote-card",
+                  "entity": "media_player.apple_tv_living_room",
+                  "device_family": "apple-tv",
+                  "device_type": "appletv-4k-gen3",
+                  "compatibility_mode": "default",
+                  "apple_tv_remote_entity": "remote.apple_tv_living_room",
+                  "app_launch_1": "plex",
+                  "app_launch_2": "youtube",
+                  "visible_name_text": "Living Room",
+                  "name_position": "hidden",
+                  "scale": "77",
+                  "card_mod": {
+                    "style": "ha-card {\n  border-top: 50px !important;\n  padding-top: 30px !important;\n  padding-bottom: 10px !important;\n}\n"
+                  }
+                }
+              ],
+              "column_span": 1
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Now Playing",
+                  "heading_style": "title",
+                  "icon": "mdi:play-box-multiple",
+                  "grid_options": {
+                    "rows": 1,
+                    "columns": 6
+                  }
+                },
+                {
+                  "type": "media-control",
+                  "entity": "media_player.apple_tv_living_room",
+                  "grid_options": {
+                    "columns": 12,
+                    "rows": "auto"
+                  }
+                }
+              ]
+            }
+          ],
+          "header": {},
+          "title": "Apple TV Living Room",
+          "icon": "dw:apple-tv",
+          "background": {
+            "opacity": 50,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "repeat",
+            "attachment": "fixed",
+            "image": {
+              "media_content_id": "media-source://image_upload/87ab1a2e4b5db4bb0feb19777828624d",
+              "media_content_type": "image/jpeg",
+              "metadata": {
+                "title": "Popcorn.jpg",
+                "thumbnail": "/api/image/serve/87ab1a2e4b5db4bb0feb19777828624d/256x256",
+                "media_class": "image",
+                "children_media_class": null,
+                "navigateIds": [
+                  {},
+                  {
+                    "media_content_type": "app",
+                    "media_content_id": "media-source://image_upload"
+                  }
+                ]
+              }
+            }
+          },
+          "path": "appletv-living-room",
+          "subview": true,
+          "card_mod": {
+            "style": "#root {\n  place-items: center; /* Centers all items (the heading and the remote) */\n}\n"
+          },
+          "theme": "DW Liquid"
+        },
+        {
+          "type": "sections",
+          "cards": [],
+          "max_columns": 4,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:gap-card",
+                  "grid_options": {
+                    "columns": 3,
+                    "rows": "auto"
+                  }
+                },
+                {
+                  "type": "custom:firemote-card",
+                  "entity": "media_player.apple_tv_4k_bedroom",
+                  "device_family": "apple-tv",
+                  "device_type": "appletv-4k-gen1",
+                  "compatibility_mode": "default",
+                  "apple_tv_remote_entity": "remote.apple_tv_4k_bedroom",
+                  "app_launch_1": "plex",
+                  "app_launch_2": "youtube",
+                  "visible_name_text": "Living Room",
+                  "name_position": "hidden",
+                  "scale": "78",
+                  "card_mod": {
+                    "style": "ha-card {\n  border-top: 50px !important;\n  padding-top: 30px !important;\n  padding-bottom: 10px !important;\n}\n"
+                  }
+                }
+              ],
+              "column_span": 1
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Now Playing",
+                  "heading_style": "title",
+                  "icon": "mdi:play-box-multiple"
+                },
+                {
+                  "type": "media-control",
+                  "entity": "media_player.apple_tv_4k_bedroom"
+                }
+              ]
+            }
+          ],
+          "header": {},
+          "title": "Apple TV Bedroom",
+          "icon": "dw:apple-tv",
+          "background": {
+            "opacity": 50,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "repeat",
+            "attachment": "fixed",
+            "image": "/api/image/serve/87ab1a2e4b5db4bb0feb19777828624d/original"
+          },
+          "path": "appletv-bedroom",
+          "subview": true,
+          "card_mod": {
+            "style": "#root {\n  place-items: center; /* Centers all items (the heading and the remote) */\n}\n"
+          },
+          "theme": "DW Liquid"
+        },
+        {
+          "title": "Home Old",
+          "type": "sections",
+          "icon": "mdi:home-heart",
+          "path": "home-old",
+          "subview": true,
+          "card_mod": {
+            "style": {
+              "ha-app-layout$": "#view {\n  /* This is usually the culprit padding on the main view wrapper */\n  padding-top: 0px !important; \n}\n"
+            }
+          },
+          "background": {
+            "opacity": 70,
+            "alignment": "center",
+            "size": "cover",
+            "repeat": "repeat",
+            "attachment": "scroll",
+            "image": {
+              "media_content_id": "/api/image/serve/c69178234d704db29505454ed6131a65/original"
+            }
+          },
+          "max_columns": 3,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "New section"
+                }
+              ]
+            }
+          ],
+          "header": {
+            "layout": "center",
+            "card": {
+              "type": "custom:mushroom-title-card",
+              "title_tap_action": {
+                "action": "none"
+              },
+              "subtitle_tap_action": {
+                "action": "none"
+              },
+              "alignment": "center",
+              "title": "OLD AREA",
+              "subtitle": "Y U HERE?",
+              "card_mod": {
+                "style": ".title {\n  color: #eeeeee !important;\n  font-size: 36px !important;\n  font-weight: 400 !important;\n  border-bottom: .05em solid #aaaaaa;\n  padding-top: 0px !important;\n  padding-bottom: 16px !important;\n  display: inline-block;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}\n.subtitle {\n  color: #eeeeee !important;\n  font-size: 26px !important;\n  font-weight: 300 !important;\n  padding-top: 0px;\n  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);\n}\n"
+              }
+            },
+            "badges_position": "bottom",
+            "badges_wrap": "wrap"
+          },
+          "badges": [
+            {
+              "type": "entity",
+              "show_name": true,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.dw_lights_on_count",
+              "name": "Lights",
+              "tap_action": {
+                "action": "navigate",
+                "navigation_path": "/dashboard-home/lights"
+              },
+              "show_entity_picture": false,
+              "color": "amber",
+              "icon": "mdi:lightbulb"
+            },
+            {
+              "type": "custom:mushroom-template-badge",
+              "content": "{% if is_state(entity, 'locked') %}\n  Locked\n{% else %}\n  Unlocked\n{% endif %}\n",
+              "icon": "{% if is_state(entity, 'locked') %}\n  mdi:lock\n{% else %}\n  mdi:lock-open-alert\n{% endif %}\n",
+              "color": "{% if is_state(entity, 'locked') %}\n  #2f76e0\n{% elif is_state(entity, 'unlocked') %}\n  #e7685f\n{% else %}\n  disabled\n{% endif %}\n",
+              "entity": "lock.dw_front_door_lock_wrapper",
+              "area": "outside",
+              "label": "Front Door",
+              "tap_action": {
+                "action": "none"
+              },
+              "double_tap_action": {
+                "action": "toggle"
+              }
+            },
+            {
+              "type": "custom:mushroom-template-badge",
+              "content": "{% if is_state(entity, 'open') %}\n  Open\n{% elif is_state(entity, 'opening') %}\n  Opening\n{% elif is_state(entity, 'closing') %}\n  Closing\n{% else %}\n  Closed\n{% endif %}\n",
+              "icon": "{% if is_state(entity, 'open') %}\n  mdi:garage-alert-variant\n{% elif is_state(entity, 'opening') %}\n  mdi:arrow-up-bold\n{% elif is_state(entity, 'closing') %}\n  mdi:arrow-down-bold\n{% else %}\n  mdi:garage-variant\n{% endif %}\n",
+              "color": "{% if is_state(entity, 'open') %}\n  #e7685f\n{% elif is_state(entity, 'opening') %}\n  #b976e0\n{% elif is_state(entity, 'closing') %}\n  #b976e0\n{% elif is_state(entity, 'closed') %}\n  #2f76e0\n{% else %}\n  disabled\n{% endif %}\n",
+              "entity": "cover.garage_door",
+              "area": "outside",
+              "label": "Garage",
+              "double_tap_action": {
+                "action": "toggle"
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:mod-card",
+              "card": {
+                "type": "custom:mushroom-template-badge",
+                "entity": "climate.thermostat",
+                "label": "A/C",
+                "content": "{% if is_state(entity, 'off') %}\n  Off\n{% elif is_state(entity, 'heat') %}\n  Heat\n{% elif is_state(entity, 'cool') %}\n  Cool\n{% elif is_state(entity, 'heat_cool') %}\n  Heat/Cool\n{% elif is_state(entity, 'auto') %}\n  Auto\n{% elif is_state(entity, 'dry') %}\n  Dry\n{% elif is_state(entity, 'fan_only') %}\n  Fan only\n{% elif is_state(entity, 'unavailable') %}\n  Unavailable\n{% elif is_state(entity, 'unknown') %}\n  Unknown\n{% else %}\n  Error\n{% endif %}\n",
+                "icon": "mdi:fan",
+                "color": "{% if is_state(entity, 'off') %}\n  disabled\n{% elif is_state(entity, 'heat') %}\n  orange\n{% elif is_state(entity, 'cool') %}\n  cyan\n{% elif is_state(entity, 'heat_cool') %}\n  yellow\n{% elif is_state(entity, 'auto') %}\n  #89e98e\n{% elif is_state(entity, 'dry') %}\n  Dry\n{% elif is_state(entity, 'fan_only') %}\n  white\n{% elif is_state(entity, 'unavailable') %}\n  disabled\n{% elif is_state(entity, 'unknown') %}\n  disabled\n{% else %}\n  disabled\n{% endif %}\n",
+                "tap_action": {
+                  "action": "more-info"
+                }
+              },
+              "card_mod": {
+                "style": {
+                  "mushroom-template-badge$": "ha-state-icon {\n  {% if is_state('climate.thermostat', 'cool') or\n        is_state('climate.thermostat', 'heat') or\n        is_state('climate.thermostat', 'heat_cool') or\n        is_state('climate.thermostat', 'auto') or\n        is_state('climate.thermostat', 'dry') or\n        is_state('climate.thermostat', 'fan_only') %}\n    animation: spin 1s linear infinite;\n  {% endif %}\n}\n@keyframes spin {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n"
+                }
+              }
+            },
+            {
+              "type": "entity",
+              "show_name": true,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.rht_living_room_temperature",
+              "name": "Inside",
+              "color": "cyan",
+              "show_entity_picture": true,
+              "icon": "mdi:home-thermometer",
+              "tap_action": {
+                "action": "navigate",
+                "navigation_path": "/dashboard-home/climate"
+              }
+            },
+            {
+              "type": "entity",
+              "show_name": true,
+              "show_state": true,
+              "show_icon": true,
+              "entity": "sensor.rht_front_porch_temperature",
+              "name": "Outside",
+              "color": "orange",
+              "show_entity_picture": true,
+              "icon": "mdi:sun-thermometer",
+              "tap_action": {
+                "action": "navigate",
+                "navigation_path": "/dashboard-home/climate"
+              }
+            },
+            {
+              "type": "custom:mushroom-template-badge",
+              "label": "Cameras",
+              "content": "5 Online",
+              "icon": "mdi:cctv",
+              "tap_action": {
+                "action": "navigate",
+                "navigation_path": "/dashboard-home/cameras"
+              },
+              "color": "#89e98e"
+            }
+          ],
+          "cards": []
+        }
+      ]
+    }
+  }
+}

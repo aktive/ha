@@ -1,0 +1,67 @@
+- name: Camera Bridge Doorbell
+  port: 51273
+  mode: accessory
+  filter:
+    include_entities:
+      - camera.doorbell_fluent
+  entity_config:
+    camera.doorbell_fluent:
+      name: Front Door Camera
+      support_audio: true
+      linked_doorbell_sensor: binary_sensor.doorbell_visitor
+
+- name: Camera Bridge Driveway
+  port: 51274
+  mode: accessory
+  filter:
+    include_entities:
+      - camera.driveway_cam_fluent
+  entity_config:
+    camera.driveway_cam_fluent:
+      name: Driveway Camera
+      support_audio: true
+
+# - name: Camera Bridge Street wouldnt work sadface
+#   port: 51275
+#   mode: accessory
+#   filter:
+#     include_entities:
+#       - camera.street_cam
+#   entity_config:
+#     camera.street_cam :
+#       name: Street Camera
+#       support_audio: true
+
+- name: Lock Wrapper DW01
+  port: 51844
+  mode: accessory
+  filter:
+    include_entities:
+      - lock.dw_front_door_lock_wrapper
+  entity_config:
+    lock.dw_front_door_lock_wrapper:
+      name: Front Door Lock Wrapper
+
+# DW 11/12 left this here after merging with the above. hopefully the merging will resolve the issue where both camers werre 'front door in hk'
+# - name: Camera Bridge DW02
+#   port: 51272
+#   mode: accessory
+#   filter:
+#     include_entities:
+#       - camera.driveway_cam_fluent
+#   entity_config:
+#     camera.driveway_cam_fluent:
+#       name: Driveway
+#       linked_doorbell_sensor: binary_sensor.driveway_cam_animal
+#       support_audio: true
+
+# - name: Camera Bridge Street
+#   port: xxxx
+#   mode: accessory
+#   filter:
+#     include_entities:
+#       - camera.street_go2rtc
+#   entity_config:
+#     camera.street_go2rtc:
+#       name: Street Camera
+#       support_audio: true

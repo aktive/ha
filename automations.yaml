@@ -1,0 +1,459 @@
+- id: '1761544063988'
+  alias: Webhook BROBot Commands
+  description: ''
+  triggers:
+  - trigger: webhook
+    allowed_methods:
+    - POST
+    - PUT
+    local_only: true
+    webhook_id: BROBot
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.data.command == "work light off" }}'
+      sequence:
+      - type: turn_off
+        device_id: 7e8582ba9e52fa0eab5798b8af595db6
+        entity_id: ec7e2b0f57329261ef8603125418ca8a
+        domain: switch
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.data.command == "work light on" }}'
+      sequence:
+      - type: turn_on
+        device_id: 7e8582ba9e52fa0eab5798b8af595db6
+        entity_id: ec7e2b0f57329261ef8603125418ca8a
+        domain: switch
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.data.command == "garage light on" }}'
+      sequence:
+      - action: light.turn_on
+        metadata: {}
+        data:
+          transition: 0
+          color_temp_kelvin: 2328
+        target:
+          entity_id: light.garage_lights
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.data.command == "garage light off" }}'
+      sequence:
+      - action: light.turn_off
+        metadata: {}
+        data:
+          transition: 2
+        target:
+          entity_id: light.garage_lights
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.data.command == "deans lamp off" }}'
+      sequence:
+      - action: light.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.deans_lamp
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.data.command == "deans lamp on" }}'
+      sequence:
+      - action: light.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.deans_lamp
+  mode: single
+- id: '1761565820635'
+  alias: BRO-Bot Kitchen Lights
+  description: ''
+  triggers:
+  - trigger: webhook
+    allowed_methods:
+    - POST
+    - PUT
+    local_only: true
+    webhook_id: BROBot
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.data.command == "kitchen lights off" }}'
+      sequence:
+      - action: light.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: light.kitchen_lights
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.data.command == "kitchen lights on" }}'
+      sequence:
+      - action: light.turn_on
+        metadata: {}
+        data:
+          color_temp_kelvin: 2591
+          brightness_pct: 30
+        target:
+          entity_id: light.kitchen_downlights
+  mode: single
+- id: '1763088756686'
+  alias: Front Door Auto Lock
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - lock.dw_front_door_lock_wrapper
+    from:
+    to:
+    - unlocked
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
+  conditions: []
+  actions:
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - action: lock.lock
+    metadata: {}
+    data: {}
+    target:
+      entity_id: lock.dw_front_door_lock_wrapper
+  mode: single
+- id: '1763090663314'
+  alias: Push Garage Door Open 10 Min
+  triggers:
+  - entity_id:
+    - cover.garage_door
+    to:
+    - open
+    trigger: state
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  actions:
+  - action: notify.dean_push
+    data:
+      title: "\U0001F699 Garage Door Open"
+      message: The garage door has been open for 10 minutes.
+      data:
+        url: entityId:cover.garage_door
+        actions:
+        - action: CLOSE_GARAGE_NOW
+          title: Close Now
+  mode: single
+- id: '1763102381938'
+  alias: Push Dean not Home
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - person.dean
+    - person.megan
+    from:
+    to:
+    - not_home
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+  conditions: []
+  actions:
+  - action: notify.mobile_app_aktive15
+    metadata: {}
+    data:
+      message: Dean has not been home for 15 minutes
+      title: "\U0001F3E0 Person Not Home"
+  mode: single
+- id: '1763185998209'
+  alias: Refresh Dad Joke API on dash load
+  description: ''
+  triggers:
+  - trigger: event
+    event_type: lovelace_view
+    event_data:
+      view_id: home
+  conditions: []
+  actions:
+  - action: homeassistant.update_entity
+    metadata: {}
+    data:
+      entity_id:
+      - sensor.dad_joke_api
+  mode: single
+- id: '1763207197195'
+  alias: Sensor Light Back Yard
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.ms_back_yard
+    from:
+    to:
+    - 'on'
+  conditions:
+  - condition: time
+    after: '18:00:00'
+    before: 09:00:00
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data:
+      color_temp_kelvin: 5817
+      brightness_pct: 100
+    target:
+      entity_id:
+      - light.kitchen_downlight_3
+      - light.kitchen_downlight_7
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - action: light.turn_off
+    metadata: {}
+    data:
+      transition: 0
+    target:
+      entity_id:
+      - light.kitchen_downlight_3
+      - light.kitchen_downlight_7
+  mode: single
+- id: '1763555643397'
+  alias: Set default theme
+  description: ''
+  triggers:
+  - trigger: homeassistant
+    event: start
+  conditions: []
+  actions:
+  - action: frontend.set_theme
+    metadata: {}
+    data:
+      mode: dark
+      name: aktive liquid - fall edition
+  mode: single
+- id: '1763774375486'
+  alias: Push Dryer
+  description: Handles On and Off state in 1 automation
+  triggers:
+  - entity_id:
+    - binary_sensor.dryer_running
+    from:
+    - 'off'
+    to:
+    - 'on'
+    trigger: state
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 15
+  - entity_id:
+    - binary_sensor.dryer_running
+    from:
+    - 'on'
+    to:
+    - 'off'
+    trigger: state
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
+  actions:
+  - data:
+      title: "{% if is_state('binary_sensor.dryer_running', 'on') %}\n  ♨️ Dryer Started\n{%
+        else %}\n  ♨️ Dryer Finished\n{% endif %}\n"
+      message: "{% if is_state('binary_sensor.dryer_running', 'on') %}\n  Power usage:
+        {{ states('sensor.sp_dryer_power') }}W\n{% else %}\n  {{ [\"You're drying
+        your best.\", \"Bet you $10 you don't fold it straight away.\", \"Go grab
+        your clothes before they get all wrinkly!\", \"LLLLLET'S GET READY TO TTTTUMBLE!\",
+        \"Fuck I hate laundry.\", \"Sheet Fighter II is my fav.\", \"Fortune favors
+        the fold.\", ] | random }} \n{% endif %}"
+    action: notify.dean_push
+  mode: single
+- id: '1763790503333'
+  alias: Push Button Garage Door Close Now
+  triggers:
+  - event_type: mobile_app_notification_action
+    event_data:
+      action: CLOSE_GARAGE_NOW
+    trigger: event
+  actions:
+  - target:
+      entity_id: cover.garage_door
+    action: cover.close_cover
+  mode: single
+- id: '1763797579738'
+  alias: Push Freezer Open
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.ds_freezer
+    from:
+    - 'off'
+    to:
+    - 'on'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  conditions: []
+  actions:
+  - data:
+      title: ❄️ Freezer Open
+      message: The freezer has been left open for 5+ minutes.
+    action: notify.dean_megan_push
+  mode: single
+- id: '1763799820052'
+  alias: Push Freezer Open Still
+  description: Send reminder if freezer remains open
+  triggers:
+  - entity_id:
+    - binary_sensor.ds_freezer
+    to:
+    - 'on'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    trigger: state
+    from:
+    - 'off'
+  conditions: []
+  actions:
+  - repeat:
+      while:
+      - condition: state
+        entity_id: binary_sensor.ds_freezer
+        state: 'on'
+      sequence:
+      - data:
+          title: ❄️ Freezer Still Open
+          message: The freezer is still open! Please close it.
+        action: notify.dean_megan_push
+      - delay:
+          hours: 0
+          minutes: 15
+          seconds: 0
+          milliseconds: 0
+  mode: single
+- id: '1763804583085'
+  alias: Push Freezer Closed
+  description: Notify once when the freezer has been closed after being open
+  triggers:
+  - entity_id: binary_sensor.ds_freezer
+    to: 'off'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.ds_freezer
+    state: 'on'
+    for:
+      minutes: 6
+  actions:
+  - data:
+      title: ❄️ Freezer Closed
+      message: The freezer was open for at least 6 minutes and is now closed!
+    action: notify.dean_megan_push
+  mode: single
+- id: '1763826219006'
+  description: Dean testicles
+  triggers: []
+  conditions: []
+  actions:
+  - data:
+      title: Title here
+      message: Message here
+      data:
+        url: https://home.aktive8.me/dashboard-home/alerts
+        clickAction: /dashboard-home/alerts
+        actions:
+        - action: URI
+          title: View Warnings
+          uri: dashboard-home/alerts
+    action: notify.dean_push
+  mode: single
+- id: '1763958158979'
+  alias: Push Washer
+  description: Handles On and Off state in 1 automation
+  triggers:
+  - entity_id: binary_sensor.washer_running
+    from: 'off'
+    to: 'on'
+    for:
+      seconds: 30
+    trigger: state
+  - entity_id: binary_sensor.washer_running
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 1
+      seconds: 15
+    trigger: state
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.washer_running
+        state: 'on'
+      sequence:
+      - entity_id: input_boolean.washer_cycle_active
+        action: input_boolean.turn_on
+      - data:
+          title: "\U0001F30A Washing Machine Started"
+          message: 'Power usage: {{ states(''sensor.sp_washer_power'') }}W'
+        action: notify.dean_push
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.washer_running
+        state: 'off'
+      sequence:
+      - entity_id: input_boolean.washer_cycle_active
+        action: input_boolean.turn_off
+      - data:
+          title: "\U0001F30A Washing Machine Finished"
+          message: "{{ [\"Dean is a sud muffin. There I said it.\",\n    \"Laundry
+            puns? I've got loads of them.\",\n    \"You're the missing sock I've been
+            looking for my whole life.\",\n    \"Go grab your clothes before they
+            get all stanky!\",\n    \"Loads of fun.\",\n    \"Just take it one load
+            at a time and it'll be over soon.\",\n    \"Doing laundry because going
+            commando isn’t always an option.\",\n    \"Sure, I bet that stain was
+            mayo.\"] | random }}\n"
+        action: notify.dean_push
+  mode: single
+- id: '1763967876127'
+  alias: Refresh Blind State on Button Stop Push
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - switch.bedroom_blinds_stop_switch
+    from:
+    to:
+  conditions: []
+  actions:
+  - action: homeassistant.update_entity
+    metadata: {}
+    data:
+      entity_id:
+      - cover.bedroom_blinds
+  mode: single

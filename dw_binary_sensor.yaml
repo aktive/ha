@@ -1,0 +1,15 @@
+- platform: template
+  sensors:
+    dryer_running:
+      friendly_name: "Dryer Running"
+      value_template: "{{ states('sensor.sp_dryer_power') | float > 20 }}"
+      device_class: running
+      unique_id: dryer_running
+
+- platform: template
+  sensors:
+    washer_running:
+      friendly_name: "Washer Running"
+      value_template: "{{ states('sensor.sp_washer_power') | float > 10 }}"
+      device_class: running
+      unique_id: washer_running

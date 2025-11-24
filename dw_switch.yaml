@@ -1,0 +1,26 @@
+- platform: template
+  switches:
+    bedroom_blinds_stop_switch:
+      friendly_name: "Bedroom Blinds Stop Switch"
+      unique_id: bedroom_blinds_stop_switch
+      value_template: "off"  # always show OFF in HA UI; Alexa doesn’t care
+      turn_on:
+        - service: remote.send_command
+          target:
+            entity_id: remote.bedroom
+          data:
+            num_repeats: 1
+            delay_secs: 0.4
+            hold_secs: 0
+            device: c3c8a286a83e36fa8f626980d3878bec
+            command: stop
+      turn_off:
+        - service: remote.send_command
+          target:
+            entity_id: remote.bedroom
+          data:
+            num_repeats: 1
+            delay_secs: 0.4
+            hold_secs: 0
+            device: c3c8a286a83e36fa8f626980d3878bec
+            command: stop

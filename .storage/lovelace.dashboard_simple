@@ -1,0 +1,277 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_simple",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "type": "sections",
+          "max_columns": 4,
+          "title": "bleh",
+          "path": "bleh",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "markdown",
+                  "text_only": true,
+                  "content": "&nbsp;&nbsp;{%- if now().hour < 12 -%}\n  Good Morning\n{%- elif now().hour < 18 -%}\n  Good Afternoon\n{%- else -%}\n  Good Evening\n{%- endif -%}, {{ user }}&nbsp;&nbsp;\n",
+                  "card_mod": {
+                    "style": ":host > ha-card {\n  color: rgba(255,255,255,.8);\n  height: 60px;\n  font-size: 32px !important;\n  font-weight: 400 !important;\n  padding-top: 0px !important;\n  margin-top: 0px;\n  padding-bottom: 0px !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n  border-radius: 0px;\n  transition-property: none !important;\n  text-align: center !important;\n  text-decoration: underline;\n  text-underline-offset: 20px;\n  text-decoration-thickness: 1px;\n}\n"
+                  },
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": "auto"
+                  }
+                },
+                {
+                  "type": "markdown",
+                  "text_only": true,
+                  "content": "{{ now().strftime('%a, %b %-d ∙ %I:%M %p') }}\n",
+                  "card_mod": {
+                    "style": ":host > ha-card {\n  color: rgba(255,255,255,.6);\n  font-size: 24px !important;\n  font-weight: 400 !important;\n  padding-top: 0px !important;\n  padding-bottom: 0px !important;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n  border-radius: 0px;\n  transition-property: none !important;\n  text-align: center !important;\n  font-style: italic;\n  text-underline-offset: 16px;\n  text-decoration-thickness: 1px;\n}\nha-markdown {\n  padding: 0px !important;\n}\n"
+                  },
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": "auto"
+                  }
+                }
+              ],
+              "column_span": 4
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "sensor.count_lights_on",
+                  "name": "Lights On",
+                  "fill_container": false,
+                  "icon_type": "icon",
+                  "icon": "mdi:lightbulb",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/dashboard-home/lights"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "grid_options": {
+                    "columns": 1,
+                    "rows": 1
+                  },
+                  "card_mod": {
+                    "style": ":host {\n  display: inline-block !important;\n  width: auto !important;\n  max-width: unset !important; \nha-card {\n  height: 40px !important;\n  width: 110px !important;\n  padding-left: 2px !important;\n  padding-bottom: 2px !important;\n  padding-right: 12px !important;\n  margin: 0px !important;\n  --spacing: 0px !important; /* Mushroom-specific padding variable */\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --ha-ripple-color: green !important;\n  transition-property: none !important;\n}\nmushroom-shape-icon {\n  padding: 0px !important;\n  --icon-color: rgba(253, 158, 10, .9) !important;\n  --icon-color-disabled: rgba(253, 158, 10, .9) !important;\n  --shape-color: rgba(0, 0, 0, 0) !important;\n  --shape-color-disabled: rgba(0, 0, 0, 0) !important;   \n  --icon-symbol-size: 24px;\n  --icon-size: 38px;\n}\nmushroom-state-info {\n    --card-primary-font-size: 12px !important;\n    --card-primary-color: rgba(255,255,255,.8) !important;\n    --card-secondary-font-size: 11px !important;\n    --card-secondary-color: rgba(255,255,255,.7) !important;\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "climate.thermostat",
+                  "name": "Air Con",
+                  "icon": "mdi:fan",
+                  "fill_container": false,
+                  "icon_type": "icon",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "card_mod": {
+                    "style": "ha-card {\n  height: 38px !important;\n  padding-left: 2px !important;\n  padding-bottom: 2px !important;\n  padding-right: 16px !important;\n  margin: 0px !important;\n  --spacing: 0px !important; /* Mushroom-specific padding variable */\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --ha-ripple-color: green !important;\n  transition-property: none !important;\n}\nmushroom-shape-icon {\n  padding: 0px !important;\n  --icon-color: orange !important;\n  --icon-color-disabled: grey !important;\n  --shape-color: rgba(0, 0, 0, 0) !important;\n  --shape-color-disabled: rgba(0, 0, 0, 0) !important;   \n  --icon-symbol-size: 24px;\n  --icon-size: 38px;\n}\nmushroom-state-info {\n    --card-primary-font-size: 12px !important;\n    --card-primary-color: rgba(255,255,255,.8) !important;\n    --card-secondary-font-size: 11px !important;\n    --card-secondary-color: rgba(255,255,255,.7) !important;\n}\n\n:host ha-state-icon {\n  {% if is_state('climate.thermostat', 'cool') or\n        is_state('climate.thermostat', 'heat') or\n        is_state('climate.thermostat', 'heat_cool') or\n        is_state('climate.thermostat', 'auto') or\n        is_state('climate.thermostat', 'dry') or\n        is_state('climate.thermostat', 'fan_only') %}\n    animation: spin 1s linear infinite;\n  {% endif %}\n}\n@keyframes spin {\n  100% {\n    transform: rotate(360deg);\n  }\n}\n"
+                  },
+                  "grid_options": {
+                    "columns": 1,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "sensor.temp_in_out",
+                  "name": "Temperature",
+                  "fill_container": false,
+                  "icon_type": "icon",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/dashboard-home/climate"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "card_mod": {
+                    "style": "ha-card {\n  height: 38px !important;\n  padding-left: 2px !important;\n  padding-bottom: 2px !important;\n  padding-right: 16px !important;\n  margin: 0px !important;\n  --spacing: 0px !important; /* Mushroom-specific padding variable */\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --ha-ripple-color: green !important;\n  transition-property: none !important;\n}\nmushroom-shape-icon {\n  padding: 0px !important;\n  --icon-color: #5ac8f5 !important;\n  --icon-color-disabled: grey !important;\n  --shape-color: rgba(0, 0, 0, 0) !important;\n  --shape-color-disabled: rgba(0, 0, 0, 0) !important;   \n  --icon-symbol-size: 24px;\n  --icon-size: 38px;\n}\nmushroom-state-info {\n    --card-primary-font-size: 12px !important;\n    --card-primary-color: rgba(255,255,255,.8) !important;\n    --card-secondary-font-size: 11px !important;\n    --card-secondary-color: rgba(255,255,255,.7) !important;\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "lock.dw_front_door_lock_wrapper",
+                  "name": "Front Door",
+                  "fill_container": false,
+                  "icon_type": "icon",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "card_mod": {
+                    "style": "ha-card {\n  height: 38px !important;\n  padding-left: 2px !important;\n  padding-bottom: 2px !important;\n  padding-right: 16px !important;\n  margin: 0px !important;\n  --spacing: 0px !important; /* Mushroom-specific padding variable */\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --ha-ripple-color: green !important;\n  transition-property: none !important;\n}\nmushroom-shape-icon {\n  padding: 0px !important;\n  --icon-color: green !important;\n  --icon-color-disabled: red !important;\n  --shape-color: rgba(0, 0, 0, 0) !important;\n  --shape-color-disabled: rgba(0, 0, 0, 0) !important;   \n  --icon-symbol-size: 24px;\n  --icon-size: 38px;\n}\nmushroom-state-info {\n    --card-primary-font-size: 12px !important;\n    --card-primary-color: rgba(255,255,255,.8) !important;\n    --card-secondary-font-size: 11px !important;\n    --card-secondary-color: rgba(255,255,255,.7) !important;\n}\n"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "cover.garage_door",
+                  "name": "Garage",
+                  "fill_container": false,
+                  "icon_type": "icon",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "none"
+                  },
+                  "double_tap_action": {
+                    "action": "none"
+                  },
+                  "card_mod": {
+                    "style": "ha-card {\n  height: 38px !important;\n  padding-left: 2px !important;\n  padding-bottom: 2px !important;\n  padding-right: 16px !important;\n  margin: 0px !important;\n  --spacing: 0px !important; /* Mushroom-specific padding variable */\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --ha-ripple-color: green !important;\n  transition-property: none !important;\n}\nmushroom-shape-icon {\n  padding: 0px !important;\n  --icon-color: red !important;\n  --icon-color-disabled: green !important;\n  --shape-color: rgba(0, 0, 0, 0) !important;\n  --shape-color-disabled: rgba(0, 0, 0, 0) !important;   \n  --icon-symbol-size: 24px;\n  --icon-size: 38px;\n}\nmushroom-state-info {\n    --card-primary-font-size: 12px !important;\n    --card-primary-color: rgba(255,255,255,.8) !important;\n    --card-secondary-font-size: 11px !important;\n    --card-secondary-color: rgba(255,255,255,.7) !important;\n}\n"
+                  }
+                }
+              ],
+              "column_span": 4
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:button-card",
+                  "tap_action": {
+                    "action": "perform-action",
+                    "perform_action": "frontend.reload_themes",
+                    "target": {}
+                  },
+                  "show_name": false,
+                  "show_icon": false,
+                  "show_state": false,
+                  "show_label": true,
+                  "label": "[[[ \n  const h = new Date().getHours();\n  const u = (hass && hass.user && hass.user.name) ? hass.user.name : 'User';\n  if (h < 12) return `Good Morning, ${u}`;\n  if (h < 18) return `Good Afternoon, ${u}`;\n  return `Good Evening, ${u}`;\n]]]",
+                  "styles": {
+                    "card": [
+                      {
+                        "background": "none"
+                      },
+                      {
+                        "--ha-card-background": "none"
+                      },
+                      {
+                        "box-shadow": "none"
+                      },
+                      {
+                        "border": "none"
+                      },
+                      {
+                        "backdrop-filter": "none"
+                      },
+                      {
+                        "outline": "none"
+                      },
+                      {
+                        "transition": "none"
+                      },
+                      {
+                        "--mdc-ripple-color": "transparent"
+                      },
+                      {
+                        "--mdc-ripple-press-opacity": 0
+                      },
+                      {
+                        "--mdc-ripple-hover-opacity": 0
+                      },
+                      {
+                        "color": "rgba(255,255,255,.8)"
+                      },
+                      {
+                        "height": "60px"
+                      },
+                      {
+                        "font-size": "32px"
+                      },
+                      {
+                        "font-weight": 400
+                      },
+                      {
+                        "text-shadow": "2px 2px 8px rgba(0, 0, 0, 0.5)"
+                      },
+                      {
+                        "border-radius": "0px"
+                      },
+                      {
+                        "text-align": "center"
+                      },
+                      {
+                        "text-decoration": "underline"
+                      },
+                      {
+                        "text-underline-offset": "20px"
+                      },
+                      {
+                        "text-decoration-thickness": "1px"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "markdown",
+                  "content": "note the above is similar to the other heading but uses a button so u can click it. needs more work to remove mouseover."
+                }
+              ]
+            }
+          ],
+          "theme": "aktive liquid - fall edition",
+          "cards": [],
+          "header": {
+            "layout": "center",
+            "badges_position": "top",
+            "badges_wrap": "wrap"
+          },
+          "badges": [
+            {
+              "type": "custom:mushroom-entity-card",
+              "entity": "binary_sensor.dryer_running",
+              "name": "Dryer",
+              "icon": "mdi:tumble-dryer",
+              "fill_container": false,
+              "icon_type": "icon",
+              "tap_action": {
+                "action": "more-info"
+              },
+              "hold_action": {
+                "action": "none"
+              },
+              "double_tap_action": {
+                "action": "none"
+              },
+              "card_mod": {
+                "style": "ha-card {\n  height: 38px !important;\n  padding-left: 2px !important;\n  padding-bottom: 2px !important;\n  padding-right: 16px !important;\n  margin: 0px !important;\n  --spacing: 0px !important; /* Mushroom-specific padding variable */\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  --ha-ripple-color: green !important;\n}\nmushroom-shape-icon {\n  padding: 0px !important;\n  --icon-color: #b76031 !important;\n  --icon-color-disabled: grey !important;\n  --shape-color: rgba(0, 0, 0, 0) !important;\n  --shape-color-disabled: rgba(0, 0, 0, 0) !important;   \n  --icon-symbol-size: 24px;\n  --icon-size: 38px;\n}\nmushroom-state-info {\n    --card-primary-font-size: 12px !important;\n    --card-primary-color: rgba(255,255,255,.8) !important;\n    --card-secondary-font-size: 11px !important;\n    --card-secondary-color: rgba(255,255,255,.7) !important;\n}\n\n:host ha-state-icon {\n  {% if is_state('binary_sensor.dryer_running', 'on') %}\n    animation: shake 400ms ease-in-out infinite;\n    transform-origin: 50% 110%;\n  {% elif is_state('binary_sensor.dryer_running', 'off') %}\n    animation: none;\n  {% endif %}\n}\n  @keyframes shake {\n    0%, 100% { transform: translate(0, 0) rotate(0); }\n    20%  { transform: translate(0.4px, -0.4px) rotate(-4deg); }\n    40%  { transform: translate(-0.4px, 0.4px) rotate(4deg); }\n    60%  { transform: translate(0.4px, 0.4px) rotate(-4deg); }\n    80%  { transform: translate(-0.4px, -0.4px) rotate(4deg); }\n  }\n"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,56 @@
+# DW enables rtmp
+rtmp:
+  listen: ":1935"
+
+# DW enables webrtc
+webrtc:
+  listen: ":8555"  
+
+streams:
+# DW streams for ha dashboards
+  driveway_hd: rtsp://admin:DeanMeganFrod0!@10.0.0.50:554/h264Preview_01_main
+    # Stream: http://10.0.0.23:1984/stream.html?src=driveway_hd
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=driveway_hd
+  driveway_sd: rtsp://admin:DeanMeganFrod0!@10.0.0.50:554/h264Preview_01_sub
+    # Stream: rtsp://10.0.0.23:8554/driveway_sd
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=driveway_sd
+  garage_hd: rtsp://admin:0MGineedmycamera!@10.0.0.51:554/h264Preview_01_main
+    # Stream: rtsp://10.0.0.23:8554/garage_hd
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=garage_hd
+  garage_sd: rtsp://admin:0MGineedmycamera!@10.0.0.51:554/h264Preview_01_sub
+    # Stream: rtsp://10.0.0.23:8554/garage_sd
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=garage_sd
+  doorbell_hd: rtsp://admin:DeanMeganFrod0!@10.0.0.52:554/h264Preview_01_main
+    # Stream: rtsp://10.0.0.23:8554/doorbell_hd
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=doorbell_hd
+  doorbell_sd: rtsp://admin:DeanMeganFrod0!@10.0.0.52:554/h264Preview_01_sub
+    # Stream: rtsp://10.0.0.23:8554/doorbell_sd
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=doorbell_sd
+  street_hd: rtsp://admin:0MGcamera@10.0.0.190:8554/profile0
+    # Stream: rtsp://10.0.0.23:8554/street
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=street
+  street_sd: rtsp://admin:0MGcamera@10.0.0.190:8554/profile1
+    # Stream: rtsp://10.0.0.23:8554/street
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=street    
+  back_yard_hd: rtsp://admin:0MGcamera@10.0.0.152:8554/profile0
+  back_yard_sd: rtsp://admin:0MGcamera@10.0.0.152:8554/profile1
+    # Stream: rtsp://10.0.0.23:8554/back_yard
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=back_yard
+  c225_2k: rtsp://camadmin:0MGineedmycamera!@10.0.0.54:554/stream1
+    # Stream: rtsp://10.0.0.23:8554/c225_2k
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=c225_2k
+  c225_sd: rtsp://camadmin:0MGineedmycamera!@10.0.0.54:554/stream2
+    # Stream: rtsp://10.0.0.23:8554/c225_sd
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=c225_sd
+  c225_hd: rtsp://camadmin:0MGineedmycamera!@10.0.0.54:554/stream3
+    # Stream: rtsp://10.0.0.23:8554/c225_hd
+    # Frame: http://10.0.0.23:1984/api/frame.jpeg?src=c225_hd
+
+# homekit:
+#   street2:                   # same stream ID from streams list
+#     pin: 12241224           # custom PIN, default: 19550224
+#     name: Street 2 Cam      # custom camera name, default: generated from stream ID
+#     device_id: street2       # custom ID, default: generated from stream ID
+#     device_private: street2  # custom key, default: generated from stream ID
+#     pairings:
+#       - client_id=F66ADA25-A18E-4F87-B73C-C767E4DDB9AA&client_public=d285d9ae62fd9a746bec5db6fe6c0ab81ca66909e214cf318a9396c877484920&permissions=0

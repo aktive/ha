@@ -1,0 +1,79 @@
+- platform: template
+  fans:
+    bedroom_fan:
+      friendly_name: "Bedroom Fan"
+      value_template: "{{ is_state('switch.smart_plug_fan', 'on') }}"
+      unique_id: bedroom_fan
+      turn_on:
+        - choose:
+            - conditions:
+                - condition: state
+                  entity_id: switch.smart_plug_fan
+                  state: 'off'
+              sequence:
+                # Power on plug
+                - service: switch.turn_on
+                  target:
+                    entity_id: switch.smart_plug_fan
+                - delay: "00:00:02"
+                # Send power toggle IR command to turn on fan
+                - service: remote.send_command
+                  target:
+                    entity_id: remote.bedroom
+                  data:
+                    num_repeats: 1
+                    delay_secs: 0.4
+                    hold_secs: 0
+                    device: c3c8a286a83e36fa8f626980d3878bec
+                    command: honeywell_fan_power
+                # Initialize speed to 1
+                - service: counter.set_value
+                  target:
+                    entity_id: counter.bedroom_fan_speed
+                  data:
+                    value: 1
+          default: []
+
+      turn_off:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.smart_plug_fan
+
+      percentage_template: >
+        {{ (states('counter.bedroom_fan_speed') | int / 8 * 100) | int }}
+
+      set_percentage:
+        - variables:
+            current: "{{ states('counter.bedroom_fan_speed') | int }}"
+            # Convert from 0–100% to discrete 1–8 speed levels
+            requested: >
+              {% set pct = percentage | int %}
+              {% set level = ((pct / 100) * 8) | round(0, 'ceil') %}
+              {% if level < 1 %}1{% elif level > 8 %}8{% else %}{{ level | int }}{% endif %}
+            presses: >
+              {% set diff = requested - current %}
+              {% if diff > 0 %}
+                {{ diff }}
+              {% else %}
+                {{ 8 + diff }}
+              {% endif %}
+        - repeat:
+            count: "{{ presses }}"
+            sequence:
+              - service: remote.send_command
+                target:
+                  entity_id: remote.bedroom
+                data:
+                  num_repeats: 1
+                  delay_secs: 0.4
+                  hold_secs: 0
+                  device: c3c8a286a83e36fa8f626980d3878bec
+                  command: honeywell_fan_speed
+              - delay: "00:00:0.5"
+        - service: counter.set_value
+          target:
+            entity_id: counter.bedroom_fan_speed
+          data:
+            value: "{{ requested }}"
+
+      speed_count: 8

@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace_resources",
+  "data": {
+    "items": [
+      {
+        "id": "834fe3926a26489d89489cdaaca95f0d",
+        "url": "/hacsfiles/weather-radar-card/weather-radar-card.js?hacstag=487680971210",
+        "type": "module"
+      },
+      {
+        "id": "f8205ae17c0e4e8b834542e5d7c0e7fd",
+        "url": "/hacsfiles/lovelace-hourly-weather/hourly-weather.js?hacstag=499270202680",
+        "type": "module"
+      },
+      {
+        "id": "8920af4aa69a48ad9dce4f60638c80a2",
+        "url": "/hacsfiles/clock-weather-card/clock-weather-card.js?hacstag=522634019291",
+        "type": "module"
+      },
+      {
+        "id": "1974293a4f85459e9f074a32bf516f06",
+        "url": "/hacsfiles/HA-Firemote/HA-Firemote.js?hacstag=536329656419",
+        "type": "module"
+      },
+      {
+        "id": "c2587f56fa7645bb8c2f2cad0a182b50",
+        "url": "/hacsfiles/button-card/button-card.js?hacstag=146194325701",
+        "type": "module"
+      },
+      {
+        "id": "3078b2ae63e742f8a864e34cd297281c",
+        "url": "/hacsfiles/better-thermostat-ui-card/better-thermostat-ui-card.js?hacstag=439367892221",
+        "type": "module"
+      },
+      {
+        "id": "374de8b843884a629070f939fdd7ff8a",
+        "url": "/webrtc/webrtc-camera.js?v=v3.6.1",
+        "type": "module"
+      },
+      {
+        "id": "caf107745d1346a3ba30de114d8e2637",
+        "url": "/hacsfiles/go-hass-cards/go-hass-cards.js?hacstag=1070180156100",
+        "type": "module"
+      },
+      {
+        "id": "dab4129bfb9d4c73b27ae7e70e0e014f",
+        "url": "/hacsfiles/lovelace-mushroom/mushroom.js?hacstag=444350375508",
+        "type": "module"
+      },
+      {
+        "id": "f6d3d922fcbd41eab0f662a8956df65f",
+        "url": "/hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620130",
+        "type": "module"
+      },
+      {
+        "id": "53fe48cb85fe4d6fb412344e0f8a40c9",
+        "url": "/hacsfiles/hass-hue-icons/hass-hue-icons.js?hacstag=3844345221253",
+        "type": "module"
+      },
+      {
+        "id": "241b721e4654447e98f7109b959c190c",
+        "url": "/hacsfiles/lovelace-auto-entities/auto-entities.js?hacstag=1677445841161",
+        "type": "module"
+      },
+      {
+        "id": "32dd86d7f5ea42b2bc9e55fd756514c0",
+        "url": "/hacsfiles/lovelace-layout-card/layout-card.js?hacstag=156434866247",
+        "type": "module"
+      },
+      {
+        "id": "785e546dc2a441f0ae3a4ea0f70fa75c",
+        "url": "/hacsfiles/Bubble-Card/bubble-card.js?hacstag=680112919304",
+        "type": "module"
+      },
+      {
+        "id": "454ca23ba970472b89b3d6f914f32d5f",
+        "url": "/hacsfiles/lovelace-card-mod/card-mod.js?hacstag=190927524400",
+        "type": "module"
+      }
+    ]
+  }
+}

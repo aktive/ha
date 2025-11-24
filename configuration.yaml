@@ -1,0 +1,69 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+# DW Includes
+counter: !include dw_counter.yaml
+cover: !include dw_cover.yaml
+fan: !include dw_fan.yaml
+lock: !include dw_lock.yaml
+sensor: !include dw_sensor.yaml
+switch: !include dw_switch.yaml
+binary_sensor: !include dw_binary_sensor.yaml
+homekit: !include dw_homekit.yaml
+input_boolean: !include dw_input_boolean.yaml
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.11.3
+
+homeassistant:
+  internal_url: https://home.aktive8.me
+
+# DW Added for additional icon packs and themes
+frontend:
+  themes: !include_dir_merge_named themes  # DW Load frontend themes from the themes folder
+  extra_module_url:
+    - /local/dw_resources/hass-dw-icons.js
+    - /hacsfiles/lovelace-card-mod/card-mod.js?hacstag=190927524400
+
+# DW Added to suppress kasa bulb temp warnings. this will mean only error and above shows
+logger:
+  logs:
+    kasa.iot.iotbulb: error
+
+# DW Required for bubble card
+# Storage for Bubble Card Modules
+template:
+  - trigger:
+      - trigger: event
+        event_type: bubble_card_update_modules
+    sensor:
+      - name: "Bubble Card Modules"
+        state: "saved"
+        icon: "mdi:puzzle"
+        attributes:
+          modules: "{{ trigger.event.data.modules }}"
+          last_updated: "{{ trigger.event.data.last_updated }}"
+
+# DW Notification groups oup for mobile push
+notify:
+  - platform: group
+    name: "dean_megan_push"
+    services:
+      - action: mobile_app_meganpie
+      - action: mobile_app_aktive15
+
+  - platform: group
+    name: "dean_push"
+    services:
+      - action: mobile_app_aktive15
+
+  - platform: group
+    name: "megan_push"
+    services:
+      - action: mobile_app_meganpie

@@ -1,0 +1,11 @@
+fix_the_stereo:
+  alias: Fix the Stereo
+  sequence:
+  - target:
+      entity_id: switch.av_smart_switch
+    action: switch.turn_off
+  - delay: 00:00:10
+  - target:
+      entity_id: switch.av_smart_switch
+    action: switch.turn_on
+  mode: single

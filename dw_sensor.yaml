@@ -1,0 +1,88 @@
+# === DW TEMPLATE SENSORS ===
+- platform: template
+  sensors:
+
+    # DW --- Combined in/out temp sensor ---
+    temp_in_out:
+      unique_id: temp_in_out
+      friendly_name: "Temp In/Out"
+      value_template: >
+        In:{{ states('sensor.rht_living_room_temperature') | float | round(0, 'floor') }} Out:{{ states('sensor.rht_front_porch_temperature') | float | round(0, 'floor') }}
+
+
+#  DW Commenting out as i have them defined as binary sensors now. not sure if this will break anything :D
+    # # DW --- Dryer on/off sensor ---
+    # dryer_on_off:
+    #   friendly_name: "Dryer On Off"
+    #   unique_id: dryer_on_off
+    #   value_template: >
+    #     {{ states('sensor.sp_dryer_power') | float > 20 }}
+
+    # # DW --- Washer running sensor ---
+    # washer_on_off:
+    #   friendly_name: "Washer On Off"
+    #   unique_id: washer_on_off
+    #   value_template: >
+    #     {{ states('sensor.sp_washer_power') | float > 20 }}
+
+    # DW Count Lights On
+    # count_lights_on:
+    #   friendly_name: "Count Lights On"
+    #   unique_id: count_lights_on
+    #   value_template: >
+    #     {% set exclusions = ['light.garage_light_1', 'light.garage_light_2', 'light.garage_light_3' 'light.living_room_downlight_1', 'light.living_room_downlight_2'] %}
+    #     {{ states.light
+    #       | rejectattr('entity_id', 'in', exclusions)
+    #       | selectattr('state', 'eq', 'on') | list | count }}
+    #   icon_template: mdi:lightbulb-group
+
+# working {{ label_entities('Lights On Exclude') | list | count }}
+
+    count_lights_on:
+      friendly_name: "Count Lights On"
+      unique_id: count_lights_on
+      icon_template: mdi:lightbulb-group # Added a helpful icon
+      value_template: >
+        {{ label_entities('light_counted') 
+        | select('is_state', 'on') 
+        | list 
+        | length }}
+
+    count_lights_total:
+      friendly_name: "Count Lights Total"
+      unique_id: count_lights_total
+      icon_template: mdi:lightbulb-group # Added a helpful icon
+      value_template: >
+        {{ label_entities('light_counted') | list | count }}
+
+
+# DW authenticated plugin for auth logging: https://home.aktive8.me/hacs/repository/808846327
+- platform: authenticated
+  enable_notification: true
+  log_location: /config/auth.log
+  provider: ipinfo
+
+# === DW rest sensors ===
+# === DW dad joke API ===
+# - platform: rest
+#   name: Dad Joke API
+#   unique_id: dad_joke_api
+#   resource: https://icanhazdadjoke.com/
+#   headers:
+#     Accept: application/json
+#   value_template: "{{ value_json.joke }}"
+#   scan_interval: 3600   # seconds
+
+#   # === DW REST SENSORS ===
+- platform: rest
+  name: DW Will It Rain
+  unique_id: dw_will_it_rain
+  resource: "https://api.open-meteo.com/v1/forecast?latitude=32.9213247&longitude=-117.2225162&daily=precipitation_sum&timezone=auto"
+  value_template: >
+    {% set rain = value_json.daily.precipitation_sum %}
+    {% if rain | select('gt', 0) | list | count > 0 %}
+      Yes
+    {% else %}
+      No
+    {% endif %}
+  scan_interval: 10800   # 3 hours

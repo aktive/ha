@@ -1,0 +1,38 @@
+# --- Bedroom blinds cover ---
+- platform: template
+  covers:
+    bedroom_blinds:
+      friendly_name: "Bedroom Blinds"
+      unique_id: bedroom_blinds
+      device_class: blind  # or "curtain"
+      optimistic: true
+      open_cover:
+        - service: remote.send_command
+          target:
+            entity_id: remote.bedroom
+          data:
+            num_repeats: 1
+            delay_secs: 0.4
+            hold_secs: 0
+            device: c3c8a286a83e36fa8f626980d3878bec
+            command: open
+      close_cover:
+        - service: remote.send_command
+          target:
+            entity_id: remote.bedroom
+          data:
+            num_repeats: 1
+            delay_secs: 0.4
+            hold_secs: 0
+            device: c3c8a286a83e36fa8f626980d3878bec
+            command: close
+      stop_cover:
+        - service: remote.send_command
+          target:
+            entity_id: remote.bedroom
+          data:
+            num_repeats: 1
+            delay_secs: 0.4
+            hold_secs: 0
+            device: c3c8a286a83e36fa8f626980d3878bec
+            command: stop

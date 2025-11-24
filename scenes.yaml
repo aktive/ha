@@ -1,0 +1,47 @@
+- id: '1761335770744'
+  name: Nightlight
+  entities:
+    light.deans_bed:
+      min_color_temp_kelvin: 2700
+      max_color_temp_kelvin: 5000
+      min_mireds: 200
+      max_mireds: 370
+      effect_list:
+      - 'Off'
+      - Aurora
+      - Bubbling Cauldron
+      - Candy Cane
+      - Christmas
+      - Flicker
+      - Hanukkah
+      - Haunted Mansion
+      - Icicle
+      - Lightning
+      - Ocean
+      - Rainbow
+      - Raindrop
+      - Spring
+      - Valentines
+      supported_color_modes:
+      - color_temp
+      - hs
+      effect: 'off'
+      color_mode: color_temp
+      brightness: 20
+      color_temp_kelvin: 3074
+      color_temp: 325
+      hs_color:
+      - 27.708
+      - 54.922
+      rgb_color:
+      - 255
+      - 180
+      - 115
+      xy_color:
+      - 0.488
+      - 0.382
+      friendly_name: Deans Bed
+      supported_features: 36
+      state: 'on'
+  icon: mdi:moon-waxing-crescent
+  metadata: {}
