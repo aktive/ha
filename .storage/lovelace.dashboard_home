@@ -1547,7 +1547,21 @@
             "repeat": "repeat",
             "attachment": "fixed"
           },
-          "sections": [],
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "markdown",
+                  "content": "## 📈 System Status\n* **Core:** `✅Online`\n* **Plex:** `✅Online`\n* **Alexa:** `✅Online`\n* **HomeKit:** `✅Online`\n* **Push Notifications:** `⚠️Offline` for `Washer` and `Dryer` (see bugs)\n* **Cameras:** `✅6/6 Online` `🔴Rec: Doorbell`\n* **Thermostat:** `✅ Online`\n* **Front Door Lock:** `✅ Online`\n* **Garage Door Opener:** `✅ Online`\n\n## ✨ New Features\n* 11/23/25: Historic announcements will be archived here.\n\n## 🔮 Roadmap\n* 11/23/25: Historic announcements will be archived here.\n\n[View History](/dashboard-home/history)\n[Markdown Cheatsheet](https://commonmark.org/help)",
+                  "grid_options": {
+                    "columns": "full"
+                  }
+                }
+              ],
+              "column_span": 2
+            }
+          ],
           "max_columns": 4,
           "path": "alerts",
           "badges": [],
@@ -1562,7 +1576,6 @@
                 "action": "none"
               },
               "alignment": "center",
-              "subtitle": "Should I put something dynamic about alerts here? {{ states('sensor.dw_will_it_rain') }}",
               "card_mod": {
                 "style": ".title {\n  color: rgba(255,255,255,.8) !important;\n  font-size: 36px !important;\n  font-weight: 400 !important;\n  border-bottom: .05em solid rgba(255,255,255,.5);\n  padding-top: 0px !important;\n  padding-bottom: 8px !important;\n  display: inline-block;\n  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n  transition-property: none !important;\n}\n.subtitle {\n  color: rgba(255,255,255,.7) !important;\n  font-size: 23px !important;\n  font-weight: 300 !important;\n  padding-top: 0px;\n  padding-bottom: 0px !important;\n  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);\n  transition-property: none !important;\n  font-style: italic;\n}\n.layout.has-heading {\n  padding-top: 0px !important;\n}\nha-card.header {\n  padding-top: 0px !important;\n  padding-bottom: 0px !important;\n  transition-property: none !important;\n}\nhui-view-header {\n  margin-top: 0px !important;\n  padding-top: 0px !important;\n}\nha-card.header {\n  margin-top: 0px !important;\n  padding-top: 0px !important;\n}\n.header {\n  padding-top: 0px !important;\n}\n:host ha-icon {\n  display: none !important;\n}    \n"
               }
