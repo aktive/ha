@@ -380,15 +380,15 @@
   conditions: []
   actions:
   - data:
-      title: Title here
-      message: Message here
+      title: ✨ New Features Available
+      message: Click this message to view the Status Page.
       data:
-        url: https://home.aktive8.me/dashboard-home/alerts
-        clickAction: /dashboard-home/alerts
+        url: https://home.aktive8.me/dashboard-home/status
+        clickAction: /dashboard-home/status
         actions:
         - action: URI
-          title: View Warnings
-          uri: dashboard-home/alerts
+          title: View Updates Page
+          uri: /dashboard-home/status
     action: notify.dean_push
   mode: single
 - id: '1763958158979'
